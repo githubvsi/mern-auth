@@ -51,3 +51,12 @@ npm i -D nodemon
 "server": "nodemon backend/server.js"
 
 Note: We use "server" to start backend and leave "dev" to starting both backend and frontend.
+
+# 5. Environment variables
+(1) Create .env 
+(2) Add it to .gitignore
+(3) List environment variables in .env, e.g. PORT=5000
+(4) import dotenv from 'dotenv' in server.js
+(5) Replace the hardcoded variables in server.js with environment variable by using `process.env`
+    e.g.
+    const port = process.env.PORT || 5000;
