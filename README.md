@@ -22,3 +22,20 @@ export default ...
 CommonJS: 
 const express = require('express');
 module.exports = ...
+
+3. A bare bone server
+Backend and frontend code will be structured into two folders.
+
+(1) A bare bone server at src/backend/server.js looks like this:
+
+import express from 'express';
+const port = 5000;
+const app = express();
+app.get('/', (req, res) => res.send('Server is ready'));
+app.listen(port, () => console.log(`Server running on port ${port}`));
+
+(2) To run the server
+```sh
+node backend/server.js
+```
+Open http://localhost:5000/ to see the message.
