@@ -23,7 +23,7 @@ CommonJS:
 const express = require('express');
 module.exports = ...
 
-3. A bare bone server
+# 3. A bare bone server
 Backend and frontend code will be structured into two folders.
 
 (1) A bare bone server at src/backend/server.js looks like this:
@@ -39,3 +39,15 @@ app.listen(port, () => console.log(`Server running on port ${port}`));
 node backend/server.js
 ```
 Open http://localhost:5000/ to see the message.
+
+# 4. Customize scripts
+(1) install nodemon
+```sh
+npm i -D nodemon
+```
+
+(2) Add scripts to package.json
+ "start": "node backend/server.js",
+"server": "nodemon backend/server.js"
+
+Note: We use "server" to start backend and leave "dev" to starting both backend and frontend.
