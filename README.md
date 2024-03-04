@@ -176,3 +176,13 @@ throw new Error('Something went wrong');
 Then use Postman to see the error.
 
 If we comment out these two custom error middlewares and use Postman to test it, we got the default error handler on an HTML page.
+
+## 8. More controller functions
+In `userController.js` add functions for registration, logout, getting or updating a user profile.
+Don't forget to conect them to userRoutes.
+
+**Note:**
+Controller functions getUserProfile and updateUserProfile share the same endpoint ('/profile') but have different methods. We can use the following way to connect them to userRoutes.
+```
+router.route('/profile').get(getUserProfile).put(updateUserProfile);
+```
