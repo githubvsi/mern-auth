@@ -117,5 +117,62 @@ Note: We use `server` to start backend and leave `dev` to starting both backend 
         authUser,
     };
     ```
-    
-(6) userRoutes
+
+## 7. express-async-handler
+handles exceptions inside of aync express routes and passes them to error handlers.
+
+(1) General info
+https://www.npmjs.com/package/express-async-handler
+
+Usage - use `asyncHandler()` to wrap the controller function
+```
+const asyncHandler = require('express-async-handler')
+
+express.get('/', asyncHandler(async (req, res, next) => {
+	const bar = await foo.findAll();
+	res.send(bar)
+}))
+```
+
+Without the middleware:
+```
+express.get('/',(req, res, next) => {
+    foo.findAll()
+    .then ( bar => {
+       res.send(bar)
+     } )
+    .catch(next); // error passed on to the error handling route
+})
+```
+
+(2) Use express-async-handler in `userController.js`
+```
+const authUser = asyncHandler(async (req, res) => {
+    res.status(200).json({ message: 'Auth User'});
+});
+```
+
+(3) Create error handlers in   `src/middleware/errorMiddleware.js`
+e.g. 
+```
+const notFound = (req, res, next) => {...};
+const errorHandler = (err, req, res, next) => {...};
+```
+
+Don'f forget **export {...}**
+
+(3) Add these middlewares to `server.js`
+```
+import { notFound, errorHandler } from './middleware/errorMiddleware.js';
+app.use(notFound);
+app.use(errorHandler);
+```
+
+(4) To test it add the following lines to the authUser in `userController.js`
+```
+res.status(401);
+throw new Error('Something went wrong');
+```
+Then use Postman to see the error.
+
+If we comment out these two custom error middlewares and use Postman to test it, we got the default error handler on an HTML page.
