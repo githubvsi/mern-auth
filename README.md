@@ -274,6 +274,16 @@ c. **this** refers to the user that is being created/updated (in `userController
     JWT:
     https://jwt.io/introduction
     
+    https://siddharthac6.medium.com/json-web-token-jwt-the-right-way-of-implementing-with-node-js-65b8915d550e
+
+    In authentication, when the user successfully logs in using their credentials, a JWT will be returned.
+    The JWT in response is stored locally on the client side.
+    Whenever the user wants to access a protected route or resource, the user agent should send the JWT, typically in the Authorization header using the Bearer schema.
+    When the user logs out JWT is destroyed from the local.
+
+    ![How JWT works]
+    (/assets/readme-images/jwt.png)
+
 (1) Add `JWT_SECRET` to `.env`.
 
 (2) Generate JWT
