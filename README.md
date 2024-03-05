@@ -31,6 +31,11 @@ const express = require('express');
 module.exports = ...
 ```
 
+**Note:**
+To use the ES module syntax, we need to include file extension in the import path.
+e.g.
+import {... } from '../controllers/userController.js';
+
 ## 3. A bare bone server
 Backend and frontend code will be structured into two folders.
 
