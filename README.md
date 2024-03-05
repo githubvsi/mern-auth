@@ -237,3 +237,9 @@ connectDB();
 We can have `connectDB()` right before app initialization.
 
 If connection is successful, we can see "MongoDB Connected: connection host name here" in the console.
+
+## 10. User model
+In `src/backend/models/userModel.js`
+define the schema and initialize `User`.
+
+
