@@ -43,8 +43,6 @@ const registerUser = asyncHandler(async (req, res) => {
         res.status(400);
         throw new Error('Invalid user data');
     }
-
-    res.status(200).json({ message: 'Register User'});
 });
 
 
