@@ -12,6 +12,9 @@ connectDB();
 
 const app = express();
 
+app.use(express.json());    // allow us to parse JSON
+app.use(express.urlencoded({ extended: true }));    // allow us to send form data
+
 app.use('/api/users', userRoutes);
 
 app.get('/', (req, res) => res.send('Server is ready'));

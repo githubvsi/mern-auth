@@ -242,4 +242,11 @@ If connection is successful, we can see "MongoDB Connected: connection host name
 In `src/backend/models/userModel.js`
 define the schema and initialize `User`.
 
-
+## 11. Register User endpoint
+(1) Complete the logic of registerUser function in `userController` by reading `req.body`.
+    It includes checking if email exists already, sending data to database, send confirmation to client or error if fails.
+    **Note:** Add the following lines to `` in order to parse JSON (e.g. req.body) and send form data
+```
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));    
+```
