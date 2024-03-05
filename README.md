@@ -245,8 +245,29 @@ define the schema and initialize `User`.
 ## 11. Register User endpoint
 (1) Complete the logic of registerUser function in `userController` by reading `req.body`.
     It includes checking if email exists already, sending data to database, send confirmation to client or error if fails.
-    **Note:** Add the following lines to `` in order to parse JSON (e.g. req.body) and send form data
+
+    **Note:** Add the following lines to `` in order to parse JSON (e.g. req.body) and send form data.
 ```
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));    
 ```
+
+### Hash password using bcrypt
+    **Do it in the model to keep controller light.**
+```
+userSchema.pre('save', async function (next) {
+    if (!this.isModified('password')) {
+        next();
+    }
+    const salt = await bcrypt.genSalt(10);
+    this.password  = await bcrypt.hash(this.password, salt);
+})
+```
+**Note:**
+a. userSchema.pre() means it excutes before the specified event, which is `save` here.
+
+b. We do NOT use an arrow function because we need to use **this** in the function.
+
+c. **this** refers to the user that is being created/updated (in `userController.js`).
+
+
