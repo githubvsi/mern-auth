@@ -186,3 +186,49 @@ Controller functions getUserProfile and updateUserProfile share the same endpoin
 ```
 router.route('/profile').get(getUserProfile).put(updateUserProfile);
 ```
+
+## 9. MongoDB database setup
+### Create a project and build database on mongodb.com
+(1) Choose the free template, AWS as the provider, and name the cluster (optional).
+
+(2) Create user (and password which will be used later in new connection URI) and add IP address (which is automatically added and listed).
+
+(3) Create Database by adding data to the newly-created project.
+    e.g. Database name: mernauth, Collection name: users
+
+(4a) (Optional) Connect to MongoDB Compass.
+    Download MongoDB Compass. Copy the connection string. Open Compass and paste it New Connection URI. Don't forget to replace `<password>` with the newly created password. Then connect.
+
+(4b) Connect to the app (Drivers).
+    Copy the connection string and paste it into `.env`.
+
+### Set up connection in the app
+(1) Add the connection string to `.env`
+```
+MONGO_URI=mongodb+srv://wsiuci:<to be replaced by the password>@cluster0.luyzs0f.mongodb.net/<add the database name here, e.g. mernauth>?retryWrites=true&w=majority&appName=Cluster0
+```
+
+(2) Create connection function in `src/backend/config/db.js`
+```
+import mongoose from 'mongoose';
+const connectDB = async () => {
+    try {
+        const conn = await mongoose.connect(process.env.MONGO_URI);
+        console.log(`MongoDB Connected: ${conn.connection.host}`);
+    } catch (e) {
+        console.error(`Error: ${e.message}`);
+        process.exit(1);
+    }
+};
+export default connectDB;
+```
+
+(3) Use the connection function in `server.js`
+```
+import connectDB from './config/db.js';
+connectDB();
+```
+
+We can have `connectDB()` right before app initialization.
+
+If connection is successful, we can see "MongoDB Connected: connection host name here" in the console.
