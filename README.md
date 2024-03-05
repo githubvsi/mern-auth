@@ -270,4 +270,46 @@ b. We do NOT use an arrow function because we need to use **this** in the functi
 
 c. **this** refers to the user that is being created/updated (in `userController.js`).
 
+### Generate JWT & save cookies
+    JWT:
+    https://jwt.io/introduction
+    
+(1) Add `JWT_SECRET` to `.env`.
+
+(2) Generate JWT
+    **Note:**
+    As both registerUser and authUser will use JWT, we put the function in `src/backend/utils/generateToken.js`.
+```
+import jwt from 'jsonwebtoken';
+const generateToken = (res, userId) => {
+    const token = jwt.sign({ userId }, process.env.JWT_SECRET, {
+        expiresIn: '30d',
+    });
+    res.cookie('jwt', token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV !== 'development',
+        sameSite: 'strict',  // to prevent a CRSF attack
+        maxAge: 30 * 24 * 60 * 60 * 1000,   // 30d
+    });
+};
+```
+a. User `userId` as the payload in JWT. Use `JWT_SECRET` to sign it.
+
+b. `res.cookie(name, value, options)` is used to set cookie. The value may be a string or object converted to JSON.
+
+c. Two ways to ensure that cookies are sent securely and aren't accessed by unintended parties or scripts:
+    c-1: `httpOnly` ensures that a cookie is inaccessible to the Javascript `Document.cookie` API. It is ONLY sent to the server. This precaution helps mitigate **cross-site scripting (XSS) attacks**.
+    c-2: `secure` ensures the cookie is sent to the server with an encrypted request over the **HTTPS protocol**.
+
+d.  `sameSite: strict` ensures that the browser only sends the cookie with requests from the cookie's origin site.
+
+(3) Use the JWT-generating function in `userController`.
+```
+generateToken(res, user._id);
+```
+So JWT is generated using user._id as payload and added to a response cookie, which means the user is logged in.
+
+(4) Test it in Postman. In response click on `Cookies` to check out `jwt` as well as its attributes.
+
+(5) We don't have `logout` function yet. Delete the JWT cookie will log the user out. To do that in Postman, click on `Cookies` on the top right corner of the request and delete it from the popped up window.
 

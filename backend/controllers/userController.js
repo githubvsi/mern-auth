@@ -1,4 +1,5 @@
 import asyncHandler from 'express-async-handler';
+import generateToken from '../utils/generateToken.js';
 import User from '../models/userModel.js';
 
 // @desc Auth user/set token
@@ -34,6 +35,9 @@ const registerUser = asyncHandler(async (req, res) => {
     });
 
     if (user) {
+        // generate jwt using user._id and add it to the response cookie
+        generateToken(res, user._id);
+
         res.status(201).json({
             _id: user._id,
             name: user.name,
