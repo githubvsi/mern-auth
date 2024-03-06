@@ -239,21 +239,20 @@ We can have `connectDB()` right before app initialization.
 If connection is successful, we can see "MongoDB Connected: connection host name here" in the console.
 
 ## 10. User model
-In `src/backend/models/userModel.js`
-define the schema and initialize `User`.
+`src/backend/models/userModel.js`
+defines the schema and initialize `User`.
 
 ## 11. Register User endpoint
-(1) Complete the logic of registerUser function in `userController` by reading `req.body`.
+    Complete the logic of registerUser function in `userController` by reading `req.body`.
     It includes checking if email exists already, sending data to database, send confirmation to client or error if fails.
-
     **Note:** Add the following lines to `` in order to parse JSON (e.g. req.body) and send form data.
 ```
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));    
 ```
 
-### Hash password using bcrypt
-    **Do it in the model to keep controller light.**
+## 12. Hash password using bcrypt: 
+**Do it in the model to keep controller light.**
 ```
 userSchema.pre('save', async function (next) {
     if (!this.isModified('password')) {
@@ -270,19 +269,17 @@ b. We do NOT use an arrow function because we need to use **this** in the functi
 
 c. **this** refers to the user that is being created/updated (in `userController.js`).
 
-### Generate JWT & save cookies
-    JWT:
-    https://jwt.io/introduction
+## 13. Generate JWT and save cookies
+[JWT introduction](https://jwt.io/introduction)
     
-    https://siddharthac6.medium.com/json-web-token-jwt-the-right-way-of-implementing-with-node-js-65b8915d550e
+[How JWT works](https://siddharthac6.medium.com/json-web-token-jwt-the-right-way-of-implementing-with-node-js-65b8915d550e)
 
     In authentication, when the user successfully logs in using their credentials, a JWT will be returned.
     The JWT in response is stored locally on the client side.
     Whenever the user wants to access a protected route or resource, the user agent should send the JWT, typically in the Authorization header using the Bearer schema.
     When the user logs out JWT is destroyed from the local.
 
-    ![How JWT works]
-    (/assets/readme-images/jwt.png)
+![How JWT works](/assets/readme-images/jwt.png)
 
 (1) Add `JWT_SECRET` to `.env`.
 
