@@ -305,7 +305,9 @@ a. User `userId` as the payload in JWT. Use `JWT_SECRET` to sign it.
 b. `res.cookie(name, value, options)` is used to set cookie. The value may be a string or object converted to JSON.
 
 c. Two ways to ensure that cookies are sent securely and aren't accessed by unintended parties or scripts:
+
     c-1: `httpOnly` ensures that a cookie is inaccessible to the Javascript `Document.cookie` API. It is ONLY sent to the server. This precaution helps mitigate **cross-site scripting (XSS) attacks**.
+
     c-2: `secure` ensures the cookie is sent to the server with an encrypted request over the **HTTPS protocol**.
 
 d.  `sameSite: strict` ensures that the browser only sends the cookie with requests from the cookie's origin site.
@@ -319,4 +321,44 @@ So JWT is generated using user._id as payload and added to a response cookie, wh
 (4) Test it in Postman. In response click on `Cookies` to check out `jwt` as well as its attributes.
 
 (5) We don't have `logout` function yet. Delete the JWT cookie will log the user out. To do that in Postman, click on `Cookies` on the top right corner of the request and delete it from the popped up window.
+
+## 14. Auth user endpoint
+(1) Define a custom function `matchPassword` in `userModel.js`
+```
+userSchema.methods.matchPassword = async function(enteredPassword) {
+    return await bcrypt.compare(enteredPassword, this.password);
+};
+```
+**Note:**
+**this** refers to the user that is found in the database which has the specified email in `userController.js`.
+
+(2) Complete the logic of `authUser` in `userController.js`.
+```
+const { email, password } = req.body;
+const user = await User.findOne({ email });
+
+if (user && (await user.matchPassword(password))) {
+    generateToken(res, user._id);
+
+    res.status(201).json({
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+    });
+} else {
+    res.status(401);
+    throw new Error('Invalid email or password');
+}
+```
+
+a. Read email and password from the request body.
+
+b. Find the user with the specified email from the database.
+
+c. Compare hashed passwords using `matchPassword` defined in `userController.js`.
+
+d. If hashed passwords match, generate JWT and add it to a cookie in the response. 
+
+e. If they don't, send error code and message.
+
 

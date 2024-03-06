@@ -11,7 +11,22 @@ const authUser = asyncHandler(async (req, res) => {
     throw new Error('Something went wrong');
     /* end of test */
 
-    res.status(200).json({ message: 'Auth User'});
+    const { email, password } = req.body;
+
+    const user = await User.findOne({ email }); // to find a single user that matches the specified value of the key
+
+    if (user && (await user.matchPassword(password))) { // matchPassword is defined in userModel
+        generateToken(res, user._id);
+
+        res.status(201).json({
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+        });
+    } else {
+        res.status(401);
+        throw new Error('Invalid email or password');
+    }
 });
 
 
