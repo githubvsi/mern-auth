@@ -445,5 +445,6 @@ Yes, we need to install both react-bootstrap and bootstrap.
 import 'bootstrap/dist/css/bootstrap.min.css'
 ```
 
-## 20. Header using bootstrap
-`src/frontend/components/Header.jsx`
+## 20. Header and HomeScreen using bootstrap
+Create a `Header` component `src/frontend/components/Header.jsx`.
+Also `Hero` for `HomeScreen`.
