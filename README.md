@@ -1,5 +1,7 @@
 # MERN AUTH
 
+# Backend
+
 ## 1. Create a project and install dependencies
 (1) On an empty folder, run the command below to add `package.json` to the folder.
 
@@ -362,7 +364,7 @@ d. If hashed passwords match, generate JWT and add it to a cookie in the respons
 e. If they don't, send error code and message.
 
 ## 15. Logout & destroy cookie
-    To log out a user, destroy the cookie by setting the value of JWT an empty string, and making it expire.
+To log out a user, destroy the cookie by setting the value of JWT an empty string, and making it expire.
 ```
 res.cookie('jwt', '', {
     httpOnly: true,
@@ -389,3 +391,40 @@ router.route('/profile').get(protect, getUserProfile).put(protect, updateUserPro
 ## 17. Update user profile endpoint
 `src/backend/controllers/userController.js`: look for the user using `req.user._id` (which is made available in `authMiddleware`) in database, update name/email/password as requested, save the updated user. If no user is found, throw an error.
 
+
+
+
+# Frontend
+
+## 18. Create Vite project
+(1) Create a root folder `frontend` by running
+```
+npm create vite@latest frontend
+cd frontend
+npm install
+```
+
+(2) Add server and proxy configs to `vite.config.js`.
+
+(3) Add to `scripts` in the **root** `package.json`.
+```
+"client": "npm run dev --prefix frontend",
+```
+**Note**: `--prefix frontend` indicates the script runs in `frontend`.
+
+(4) **concurrently** - to run both frontend and backend concurrently
+a. Install
+```
+npm i -D concurrently
+```
+
+b. Add to `scripts` in the **root** `package.json`.
+```
+"dev": "concurrently \"npm run server\" \"npm run client\""
+
+```
+
+c. `npm run dev` will run both frontend and backend.
+![Console running frontend and backend](/assets/readme-images/console_run_frontend_backend.png)
+
+(5) Clean up, including removing css, changing the title in `index.html`, resetting `App.jsx`, etc.
