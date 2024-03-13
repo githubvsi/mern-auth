@@ -428,3 +428,18 @@ c. `npm run dev` will run both frontend and backend.
 ![Console running frontend and backend](/assets/readme-images/console_run_frontend_backend.png)
 
 (5) Clean up, including removing css, changing the title in `index.html`, resetting `App.jsx`, etc.
+
+## 19. Bootstrap setup
+**Note**: Be aware of the current folder in which packages are installed.
+(1) In `frontend`
+```
+npm i react-bootstrap react-icons
+npm i bootstrap
+```
+Yes, we need to install both react-bootstrap and bootstrap.
+
+(2) Import bootstrap in `main.jsx`, the entry file
+```
+import 'bootstrap/dist/css/bootstrap.min.css'
+```
+
