@@ -396,6 +396,8 @@ router.route('/profile').get(protect, getUserProfile).put(protect, updateUserPro
 
 # Frontend
 
+[Frontend blog](https://www.traversymedia.com/blog/mern-crash-course-part-2)
+
 ## 18. Create Vite project
 (1) Create a root folder `frontend` by running
 ```
@@ -443,3 +445,5 @@ Yes, we need to install both react-bootstrap and bootstrap.
 import 'bootstrap/dist/css/bootstrap.min.css'
 ```
 
+## 20. Header using bootstrap
+`src/frontend/components/Header.jsx`
