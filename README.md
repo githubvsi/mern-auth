@@ -385,3 +385,7 @@ router.route('/profile').get(protect, getUserProfile).put(protect, updateUserPro
 (3) Read `req.user` in `getUserProfile`.
 
 (4) Check in Postman: get user profile without login, get user profile after login, get user profile after logout.
+
+## 17. Update user profile endpoint
+`src/backend/controllers/userController.js`: look for the user using `req.user._id` (which is made available in `authMiddleware`) in database, update name/email/password as requested, save the updated user. If no user is found, throw an error.
+
