@@ -492,4 +492,34 @@ function App() {
 (4) `<LinkContainer to='somepathhere' />` is used to wrap a link.
 **Note**: use `<LinkContainer to='...' />` to replace `<... href='...'>`, because `href` triggers **page reload**.
 
-## 22. Form container and login/register screens
+## 22. Redux toolkit setup
+(1) Install redux toolkit in `frontend`
+```
+npm i @reduxjs/toolkit react-redux
+```
+
+(2) Create `store.js` under `frontend/src`.
+```
+import { configureStore } from "@reduxjs/toolkit";
+
+const store = configureStore({
+    reducer: {},
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
+    devTools: true,
+});
+
+export default store;
+```
+
+(3) Use `<Provider>` imported from `react-redux` to wrap everything in `main.jsx`
+```
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <Provider store={store}>
+    <React.StrictMode>
+      <RouterProvider router={ router } />
+    </React.StrictMode>
+  </Provider>,
+)
+```
+
+(4) Add Redux devtools extension to Chrome
