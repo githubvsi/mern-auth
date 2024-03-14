@@ -448,3 +448,47 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 ## 20. Header and HomeScreen using bootstrap
 Create a `Header` component `src/frontend/components/Header.jsx`.
 Also `Hero` for `HomeScreen`.
+
+# 21. Router setup
+(1) **Note**: make sure the command is run in `frontend` folder.
+```
+npm i react-router-dom react-router-bootstrap
+```
+`react-router-bootstrap` is for `<LinkContainer>` and etc.
+
+(2) Create routes and wrap everything in `RouterProvider` in `main.jsx`.
+```
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path='/' element={<App />}>
+      <Route index={ true } path='/' element={<HomeScreen />} />
+    </Route>
+  )
+)
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <RouterProvider router={ router } />
+  </React.StrictMode>,
+)
+```
+
+(3) [Router outlet](https://reactrouter.com/en/main/components/outlet)
+In `App.jsx`
+```
+function App() {
+  return (
+    <>
+      <Header />
+      <Container className='my-2'>
+        <Outlet />
+      </Container>
+    </>
+  )
+}
+```
+`Outlet` is used in a parent route element to render child route elements. In the example above, `<Outlet />` will render `<HomeScreen />` when URL is `/`.
+
+(4) `<LinkContainer to='somepathhere' />` is used to wrap a link.
+**Note**: use `<LinkContainer to='...' />` to replace `<... href='...'>`, because `href` triggers **page reload**.
+
