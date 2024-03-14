@@ -523,3 +523,33 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 ```
 
 (4) Add Redux devtools extension to Chrome
+
+## 23. Auth slice
+A **reducer** function is where you will put your state logic. It takes two arguments, the current state and the action object, and it returns the next state.
+
+In Redux Toolkit, we create reducers using something called a **slice**. A **slice** is a collection of reducer logic and actions for a single feature of our app.
+
+We will create a slice for our authentication that will only deal with the local storage of the user.
+
+[RTK - Redux Toolkit Overview](https://redux-toolkit.js.org/introduction/why-rtk-is-redux-today)
+
+(1) `authSlice` defines the slice name, initial state, and reducers.
+```
+const authSlice = createSlice({
+    name: 'auth',
+    initialState,
+    reducers: {
+        setCredentials: (state, action) => {
+            state.userInfo = action.payload;
+            localStorage.setItem('userInfo', JSON.stringify(action.payload));
+        },
+        logout: (state, action) => {
+            state.userInfo = null;
+            localStorage.removeItem('userInfo');
+        },
+    },
+});
+```
+**Note**: RTK enables writing **immutable** updates, e.g. `state.userInfo = action.payload`.
+
+(2) Add `auReducer` to `store`.
