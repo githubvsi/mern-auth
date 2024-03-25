@@ -529,7 +529,7 @@ A **reducer** function is where you will put your state logic. It takes two argu
 
 In Redux Toolkit, we create reducers using something called a **slice**. A **slice** is a collection of reducer logic and actions for a single feature of our app.
 
-We will create a slice for our authentication that will only deal with the local storage of the user.
+We will create a slice for our authentication that will only deal with the local storage of the user info.
 
 [RTK - Redux Toolkit Overview](https://redux-toolkit.js.org/introduction/why-rtk-is-redux-today)
 
@@ -552,4 +552,19 @@ const authSlice = createSlice({
 ```
 **Note**: RTK enables writing **immutable** updates, e.g. `state.userInfo = action.payload`.
 
-(2) Add `auReducer` to `store`.
+(2) Add `auReducer` to `store.js`.
+```
+const store = configureStore({
+    reducer: {
+        auth: authReducer,
+    },
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
+    devTools: true,
+});
+```
+
+(3) Test
+a. Devtools --> Redux tab --> Check out `store` with the auth slice
+b. Authenticate with the backend and check out `userInfo` stored.
+
+
