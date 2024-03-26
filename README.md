@@ -665,5 +665,15 @@ a. `useSelector` and `useDispatch` from `react-redux` allow to select data from 
 b. `useLoginMutation` allows to use the function `login` and its built-in state `isLoading`. It also has another built-in state `error`.
 c. `useEffect` is used to redirect a user to the home page if login is successful.
 d. `useNavigate` is used for redirect.
-
+e. If use `fetch` instead of `login` function
+```
+const res = await fetch('/api/users/auth', {
+    method: 'POST',
+    headers: {
+        "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ email, password }),
+});
+const data = await res.json();
+```
 
