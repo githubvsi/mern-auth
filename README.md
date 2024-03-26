@@ -564,7 +564,106 @@ const store = configureStore({
 ```
 
 (3) Test
-a. Devtools --> Redux tab --> Check out `store` with the auth slice
-b. Authenticate with the backend and check out `userInfo` stored.
+a. Devtools --> Redux tab --> State --> `auth` has `userInfo` (null)
+b. Authenticate with the backend and `userInfo` has a value.
+
+
+## 24. API slice
+(1) Create api slice in `apiSlice.js`
+```
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+
+const baseQuery = fetchBaseQuery({ baseUrl: '' });
+export const apiSlice = createApi({
+    baseQuery,
+    tagTypes: ['User'],
+    endpoints: (builder) => ({}),
+});
+```
+**Note**: 
+a. `import ... from '@reduxjs/toolkit/query/react'` because under the hood it uses RTK query.
+b. We are using the createApi function from Redux Toolkit to create our API slice instead of createSlice, because it includes the middleware that we need to make requests to our server. We are passing in a `baseQuery` object that will be used to make our requests. 
+c. tagTypes has to do with caching so we does not have to fetch data everytime.
+d. We will use the built-in `builder` to make requests. It can be considered a parent to all API slices;
+
+(2) Add API slice to `store.js`
+```
+const store = configureStore({
+    reducer: {
+        auth: authReducer,
+        [apiSlice.reducerPath]: apiSlice.reducer,
+    },
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(apiSlice.middleware),
+    devTools: true,
+});
+```
+**Note**:
+a. `[apiSlice.reducerPath]: apiSlice.reducer`: we add the API slice to `reducer`
+b. `middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(apiSlice.middleware),`: we add middleware to `getDefaultMiddleware`.
+c. Devtools --> Redux tab --> State --> `api` has `queries` (which fetches data from backend), `mutations` (which does something in the backend, e.g. adding a user), etc.
+
+(3) Create `usersApiSlice.js` - the endpoint that is needed to work with the backend
+```
+import { apiSlice } from "./apiSlice";
+const USERS_URL = '/api/users';
+export const usersApiSlice = apiSlice.injectEndpoints({
+    endpoints: (builder) => ({
+        login: builder.mutation({
+            query: (data) => ({
+                url: `${USERS_URL}/auth`,
+                method: 'POST',
+                body: data,
+            }),
+        }),
+    }),
+});
+export const { useLoginMutation } = usersApiSlice;
+```
+**Note**:
+a. `injectEndpoints()` allows to create endpoints in this file and inject them into `endpoints: (builder) => ({})` in `apiSlice.js`.
+b. The query created here hits `authUser` in `userController.js`.
+c. The specific **convention** to export mutations in queries: `useLoginMutation`.
+d. For `builder.query()` the export name should be `useLoginQuery`.
+
+(4) Use the login endpoint
+```
+import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux'
+import { useLoginMutation } from '../slices/usersApiSlice';
+import { setCredentials } from '../slices/authSlice';
+
+const LoginScreen = () => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const [login, { isLoading }] = useLoginMutation();
+    
+    const { userInfo } = useSelector((state) => state.auth);
+
+    useEffect(() => {
+        if (userInfo) navigate('/');
+    }, [navigate, userInfo]);
+
+    const submitHandler = async (e) => {
+        e.preventDefault();
+        try {
+            const res = await login({ email, password }).unwrap();
+            dispatch(setCredentials({...res}));
+            navigate('/');
+        } catch (e) {
+            toast.error(e?.data?.message || e.error);
+        }
+    };
+};
+```
+**Note**:
+a. `useSelector` and `useDispatch` from `react-redux` allow to select data from the store and dispatch actions, respectively.
+b. `useLoginMutation` allows to use the function `login` and its built-in state `isLoading`. It also has another built-in state `error`.
+c. `useEffect` is used to redirect a user to the home page if login is successful.
+d. `useNavigate` is used for redirect.
 
 
