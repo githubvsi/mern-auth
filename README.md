@@ -677,3 +677,29 @@ const res = await fetch('/api/users/auth', {
 const data = await res.json();
 ```
 
+# 25. React Toastify
+(1)
+```
+npm i react-toastify
+```
+(2) Add `<ToastContainer />` to `frontend/src/App.js`
+```
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+const App = () => {
+  return (
+    <>
+      <Header />
+      <ToastContainer />
+      <Container className='my-2'>
+        <Outlet />
+      </Container>
+    </>
+  );
+};
+```
+(3) Trigger the toast in `LoginScreen.jsx` when function `login` returns an error.
+```
+import { toast } from 'react-toastify';
+toast.error(e?.data?.message || e.error);
+```
