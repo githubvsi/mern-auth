@@ -703,3 +703,25 @@ const App = () => {
 import { toast } from 'react-toastify';
 toast.error(e?.data?.message || e.error);
 ```
+
+26. Header dropdown
+```
+const { userInfo } = useSelector((state) => state.auth);
+return (
+    <header>
+    ...
+    {userInfo ? (
+        <>
+            <NavDropdown title={userInfo.name} id='username'>
+            <LinkContainer to='/profile'>
+                <NavDropdown.Item>Profile</NavDropdown.Item>
+            </LinkContainer>
+            <NavDropdown.Item>Logout</NavDropdown.Item>
+            </NavDropdown>
+        </>
+    ) : (
+        // the Sign in / Sign up buttons
+    )}
+);
+```
+If `userInfo` is not null, show a dropdown with the username when it is folded. Otherwise show the sign in/sign up buttons.
