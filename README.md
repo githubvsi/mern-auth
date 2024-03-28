@@ -704,7 +704,7 @@ import { toast } from 'react-toastify';
 toast.error(e?.data?.message || e.error);
 ```
 
-26. Header dropdown
+# 26. Header dropdown
 ```
 const { userInfo } = useSelector((state) => state.auth);
 return (
@@ -725,3 +725,36 @@ return (
 );
 ```
 If `userInfo` is not null, show a dropdown with the username when it is folded. Otherwise show the sign in/sign up buttons.
+
+# 27. Logout
+(1) Go to `usersApiSlice.js` to add a `logout` function to endpoints.
+```
+logout: builder.mutation({
+    query: () => ({
+        url: `${USERS_URL}/logout`,
+        method: 'POST',
+    }),
+}),
+```
+Don't forget to use the naming convention and export `useLogoutMutation`.
+
+(2) Add `logoutHandler` to `logout`in the header dropdown
+```
+const dispatch = useDispatch();
+const navigate = useNavigate();
+
+const [logoutApiCall] = useLogoutMutation();
+
+const logoutHandler = async () => {
+    try {
+        await logoutApiCall().unwrap();
+        dispatch(logout());
+        navigate('/');
+    } catch (e) {
+        console.log(e);
+    }
+};
+...
+<NavDropdown.Item onClick={ logoutHandler }>Logout</NavDropdown.Item>
+```
+`logoutApiCall` calls API to invalidate jwt, while `logout` removes the local cookies.
