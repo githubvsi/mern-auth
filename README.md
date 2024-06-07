@@ -758,3 +758,8 @@ const logoutHandler = async () => {
 <NavDropdown.Item onClick={ logoutHandler }>Logout</NavDropdown.Item>
 ```
 `logoutApiCall` calls API to invalidate jwt, while `logout` removes the local cookies.
+
+
+# 28. Loader component
+components/Loader.jsx
+uses Spinner from react-bootstrap
