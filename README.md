@@ -770,4 +770,6 @@ uses Spinner from react-bootstrap
 
 (2) Add functionality to `RegisterScreen.jsx`, following the similar logic as `Login`.
 
-
+# 30. Profile
+(1) PrivateRoute component
+Build `PrivateRoute.jsx`, which determines which screen to display (Profile or Login) based on whether the user has signed in. In `main.jsx` insert the protected route, i.e. `<ProfileScreen />`, into `PrivateRoute`, so that `ProfileScreen` shows up only when signed in.
