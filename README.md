@@ -763,3 +763,11 @@ const logoutHandler = async () => {
 # 28. Loader component
 components/Loader.jsx
 uses Spinner from react-bootstrap
+
+
+# 29. Registration functionality
+(1) Add endpoint to `usersApiSlice.js`.
+
+(2) Add functionality to `RegisterScreen.jsx`, following the similar logic as `Login`.
+
+
