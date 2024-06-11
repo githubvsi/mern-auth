@@ -781,3 +781,30 @@ b. In `main.jsx` insert the protected route, i.e. `<ProfileScreen />`, into `Pri
 (3) Add an endpoint in `userApiSlice.js` for update.
 
 (4) Add functionality to the submit button in `ProfileScreen.jsx` using the endpoint.
+
+
+# 31. Prepare for production
+Build the frontend and then serve the static files from the backend.
+
+(1) In `frontend` folder run
+```
+npm run build
+```
+It will create a folder `dist` in the `frontend` folder, and `index.html` as the entry point. This is what we will serve from the backend.
+
+(2) In `backend/server.js`
+a.
+```
+if (process.env.NODE_ENV === 'production') {
+    const __dirname = path.resolve();
+    app.use(express.static(path.join(__dirname, 'frontend/dist')));
+
+    app.get('*', (req, res) => res.sendFile(path.resolve(__dirname, 'frontend', 'dist', 'index.html')));
+} else {
+    app.get('/', (req, res) => res.send('Server is ready'));
+}
+```
+It serves the static files from the `frontend/dist` folder. For all other routes than `/api/users` it serves `index.html`.
+
+b.
+To test it, set the variable `NODE_ENV` in `.env` to production and then run the server with `npm start`. Open the browser to `localhost:5000` to see the production build.
