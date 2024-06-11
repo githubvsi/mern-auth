@@ -807,4 +807,7 @@ if (process.env.NODE_ENV === 'production') {
 It serves the static files from the `frontend/dist` folder. For all other routes than `/api/users` it serves `index.html`.
 
 b.
-To test it, set the variable `NODE_ENV` in `.env` to production and then run the server with `npm start`. Open the browser to `localhost:5000` to see the production build.
+To test it, set the variable `NODE_ENV` in `.env` to "production" and then run the server with `npm run server` or `npm start`. Open the browser to `localhost:5000` to see the production build.
+
+# 32. Deployment
+https://gist.github.com/bradtraversy/b8b72581ddc940e0a41e0bc09172d91b
