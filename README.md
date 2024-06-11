@@ -772,4 +772,12 @@ uses Spinner from react-bootstrap
 
 # 30. Profile
 (1) PrivateRoute component
-Build `PrivateRoute.jsx`, which determines which screen to display (Profile or Login) based on whether the user has signed in. In `main.jsx` insert the protected route, i.e. `<ProfileScreen />`, into `PrivateRoute`, so that `ProfileScreen` shows up only when signed in.
+a. Build `PrivateRoute.jsx`, which determines which screen to display (Profile or Login) based on whether the user has signed in.
+
+b. In `main.jsx` insert the protected route, i.e. `<ProfileScreen />`, into `PrivateRoute`, so that `ProfileScreen` shows up only when signed in.
+
+(2) `ProfileScreen` has very similar UI with that of `RegisterScreen`.
+
+(3) Add an endpoint in `userApiSlice.js` for update.
+
+(4) Add functionality to the submit button in `ProfileScreen.jsx` using the endpoint.
