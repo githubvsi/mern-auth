@@ -3,7 +3,7 @@ import generateToken from '../utils/generateToken.js';
 import User from '../models/userModel.js';
 
 // @desc Auth user/set token
-// route POST /api/user/auth
+// @route POST /api/user/auth
 // @access Public
 const authUser = asyncHandler(async (req, res) => {
     /* to test the custom error middleware *
@@ -31,7 +31,7 @@ const authUser = asyncHandler(async (req, res) => {
 
 
 // @desc Register a new user
-// route POST /api/users
+// @route POST /api/users
 // @access Public
 const registerUser = asyncHandler(async (req, res) => {
     const { name, email, password } = req.body;
@@ -66,7 +66,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
 
 // @desc Logout a user
-// route POST /api/users/logout
+// @route POST /api/users/logout
 // @access Public
 const logoutUser = asyncHandler(async (req, res) => {
     res.cookie('jwt', '', {
@@ -79,14 +79,14 @@ const logoutUser = asyncHandler(async (req, res) => {
 
 
 // @desc Get user profile
-// route GET /api/users/profile
+// @route GET /api/users/profile
 // @access Private
-const getUserProfile = asyncHandler(async (req, res) => {
+const getUserProfile = asyncHandler(async (req, res) => {console.log('getUserProfile triggered');
     // req.user was defined in authMiddleware
     const user = {
         _id: req.user._id,
         name: req.user.name,
-        email: req.user.email,
+        email: `${req.user.email}lalalala`,
     };
     // console.log(req.user);
 
@@ -95,7 +95,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
 
 
 // @desc Get user profile
-// route PUT /api/users/profile
+// @route PUT /api/users/profile
 // @access Private
 const updateUserProfile = asyncHandler(async (req, res) => {
     const user = await User.findById(req.user._id);

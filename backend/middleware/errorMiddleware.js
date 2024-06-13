@@ -4,6 +4,9 @@ const notFound = (req, res, next) => {
     next(error);
 };
 
+/*
+    Error-handling middleware always takes four arguments. You must provide four arguments to identify it as an error-handling middleware function.
+*/
 const errorHandler = (err, req, res, next) => {
     // It might happen that we throw an error while the status is 200. In this case we need to change the code to 500.
     let statusCode = res.statusCode === 200 ? 500 : res.statusCode;
